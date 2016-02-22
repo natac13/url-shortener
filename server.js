@@ -35,9 +35,7 @@ app.get(
 
 });
 
-app.get(`/:id`, getFromShort, (req, res) => {
-
-});
+app.get(`/:id`, getFromShort);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
