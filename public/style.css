@@ -1,0 +1,49 @@
+code {
+  background: #DFDDD2;
+  color: #DA2727;
+  border-radius: 2px;
+}
+
+code.example {
+  background: #DFDDD2;
+  color: #4DA7DC;
+  border-radius: 2px;
+}
+
+body {
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.app {
+  width: 75%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  line-height: 1.1;
+  font-size: 3em;
+  text-align: center;
+}
+
+h3 {
+  font-size: 2em;
+  line-height: 1.2;
+  border-bottom: 1px solid #333;
+  margin-bottom: 0;
+}
+
+.demo {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  background: rgba(20, 175, 92, 0.3);
+  border-radius: 3px;
+  box-shadow: 0 0 15px #333;
+}
+
+.demo p {
+  margin: 0.5em 0;
+}

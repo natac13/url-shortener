@@ -21,6 +21,8 @@ mongoose.connect(process.env.MONGO_URI)
     throw error;
   });
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
 const re = /new(?:\/(invalid))?\/((?:https?:\/\/)?.*)/
 
 

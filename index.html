@@ -4,9 +4,27 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name=viewport content="width=device-width, initial-scale=1">
+  <link rel=stylesheet href="/style.css">
   <title>Natac's Url Shortener</title>
 </head>
 <body>
-  This is a URL shortener.
+  <div class="app">
+    <h1>Natac's Url Shortener</h1>
+    <p>You can pass a URL as a path. As long as the URL is valid you will get back a json response <code>{ "originalUrl": [yourInput], shortUrl: [provided] }</code></p>
+    <p>Validate URL must have a TLD <code>'.com', '.ca', '.org'</code>. They can omit the protocol <code>'http', https', 'ftp'</code></p>
+    <div class="demo">
+      <h3>Usage:</h3>
+      <p><strong>Input</strong></p>
+      <p><code class="example">hostname/new/http://www.google.ca</code></p>
+      <p><strong>Get Back as JSON</strong></p>
+      <p><code>{ "originalUrl": http://www.google.ca, shortUrl: hostname/3 }</code></p>
+      <p><strong>Then visit:</strong></p>
+      <p><code class="example">hostname/3</code></p>
+      <p><strong>Redirects to:</strong></p>
+      <p><code class="example">http://www.google.ca</code></p>
+
+    </div>
+
+  </div>
 </body>
 </html>
