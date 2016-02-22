@@ -5,7 +5,8 @@ import dotenv from 'dotenv';
 
 import {
   handleUrls,
-  getFromShort
+  getFromShort,
+  testUrl
 } from './app/middleware/url';
 
 // load in the process.env variables
@@ -20,11 +21,15 @@ mongoose.connect(process.env.MONGO_URI)
     throw error;
   });
 const app = express();
+const re = /new(?:\/(invalid))?\/((?:https?:\/\/)?.*)/
 
 
-app.get(/new\/((?:https?:\/\/)?.*)/ , handleUrls, (req, res) => {
-  console.log(req.params);
-  const { url } = req.params;
+app.get(
+  re,
+  testUrl,
+  handleUrls,
+  (req, res) => {
+    console.log('Save successful, Good Job Natac');
 
 });
 

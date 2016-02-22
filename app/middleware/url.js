@@ -1,15 +1,45 @@
 import Url from '../models/url';
+import isURL from 'validator/lib/isURL';
 const domain = `localhost:3050/`;
 
+function clientData(doc) {
+  return {
+    shortUrl: doc.shortUrl,
+    originalUrl: doc.originalUrl
+  };
+}
+
+
+export function testUrl(req, res, next) {
+  // the capture group from the regex is stored as numeric keys of the params
+  // object
+  // 0 being the invalid?allow=true part
+  const invalid = req.params[0];
+  const url = req.params[1];
+  if (invalid) {
+    next();
+  } else {
+    if (isURL(url)) {
+      next();
+    } else {
+      res.json({
+        error: 'Invalid URL input. Please input a valid URL and try again. Happy coding!'
+      });
+    }
+  }
+
+
+}
+
 export const handleUrls = (req, res, next) => {
-  const url = req.params[0];
+  const url = req.params[1];
 
   Url.findOne({ 'originalUrl': url })
     .exec()
     .then(function findSuccess(data) {
       if (data) {
         // get a document from mongo then send to client
-        res.json(data);
+        res.json(clientData(data));
         next();
       } else {
         // no doc found which will usually happen
@@ -27,14 +57,15 @@ export const handleUrls = (req, res, next) => {
           newUrl.idUrl = newUrlId;
           return newUrl.save()
             .then(function saveSuccess() {
-              res.json(newUrl);
+              res.json(clientData(newUrl));
               next();
             });
         });
       }
     }).catch((err) => {
-          console.log(err);
-        })
+        console.log(err);
+        res.redirect('/');
+      })
 }
 
 export function getFromShort(req, res, next) {
@@ -44,8 +75,6 @@ export function getFromShort(req, res, next) {
     .exec()
     .then(function findSuccess(data) {
       if (data) {
-        // console.log('the redirect');
-        // console.log(data.originalUrl);
         res.redirect(data.originalUrl);
       } else {
         res.json({
@@ -55,7 +84,7 @@ export function getFromShort(req, res, next) {
     })
     .catch(function perror(err) {
       throw err;
+      res.redirect('/');
     });
-    next();
 
 }
