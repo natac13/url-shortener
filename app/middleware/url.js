@@ -1,6 +1,12 @@
 import Url from '../models/url';
 import isURL from 'validator/lib/isURL';
-const domain = `localhost:3050/`;
+let domain;
+
+if (process.env.NODE_ENV != 'production') {
+  domain = `localhost:3050/`;
+} else {
+  domain = 'https://hidden-brushlands-29088.herokuapp.com/'
+}
 
 function clientData(doc) {
   return {
@@ -76,23 +82,28 @@ export const handleUrls = (req, res, next) => {
 }
 
 export function getFromShort(req, res, next) {
-  let { id } = req.params;
+  const { id } = req.params;
+  if (id.length > 3) {
+    next()
+  } else {
 
-  Url.findOne({ 'idUrl': +id })
-    .exec()
-    .then(function findSuccess(data) {
-      if (data) {
-        res.redirect(data.originalUrl);
-      } else {
-        res.json({
-          error: 'There is no long Url that matches your shortUrl. Please create the shortUrl first then try again.'
-        });
-      }
-    })
-    .catch(function perror(err) {
-      throw err;
-      res.redirect('/');
-    });
-    next();
+    Url.findOne({ 'idUrl': +id })
+      .exec()
+      .then(function findSuccess(data) {
+        if (data) {
+          res.redirect(data.originalUrl);
+        } else {
+          res.json({
+            error: 'There is no long Url that matches your shortUrl. Please create the shortUrl first then try again.'
+          });
+        }
+      })
+      .catch(function perror(err) {
+        throw err;
+        res.redirect('/');
+      });
+
+  }
+
 
 }

@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path'
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 
 import {
   handleUrls,
@@ -9,11 +8,16 @@ import {
   testUrl
 } from './app/middleware/url';
 
-// load in the process.env variables
-dotenv.load();
-
-
-mongoose.connect(process.env.MONGO_URI)
+let connection;
+if (process.env.NODE_ENV != 'production') {
+  // load in the process.env variables
+  require('dotenv').load();
+  connection = mongoose.connect(process.env.DEV)
+  console.log('Local DB being used.')
+} else {
+  connection = mongoose.connect(process.env.MONGO_URI)
+}
+connection
   .then(function connectSuccess() {
     console.log(`Connected to mongoDB via mongoose`);
   })
@@ -35,9 +39,9 @@ app.get(
 
 });
 
-app.get(`/:id`, getFromShort);
+app.get('/:id', getFromShort);
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
