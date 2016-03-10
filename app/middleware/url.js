@@ -2,7 +2,7 @@ import Url from '../models/url';
 import isURL from 'validator/lib/isURL';
 let domain;
 
-if (process.env.NODE_ENV != 'production') {
+if (process.env.NODE_ENV == 'development') {
   domain = `localhost:3050/`;
 } else {
   domain = 'https://hidden-brushlands-29088.herokuapp.com/'
@@ -20,8 +20,6 @@ export function testUrl(req, res, next) {
   // the capture group from the regex is stored as numeric keys of the params
   // object
   // 0 being the invalid?allow=true part
-  console.log(req.params);
-  console.log('testURL')
   const invalid = req.params[0];
   const url = req.params[1];
   if (invalid) {
